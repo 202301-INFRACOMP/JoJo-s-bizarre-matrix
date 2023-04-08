@@ -4,7 +4,7 @@ plugins {
 	id 'com.diffplug.spotless' version '6.17.0'
 }
 
-group 'org.xname'
+group 'edu.jojos.bizarre.matrix'
 version '0.0.0'
 
 java {
@@ -13,8 +13,8 @@ java {
 }
 
 application {
-	mainClass = 'edu.xname.Main'
-	mainModule = 'edu.xname'
+	mainClass = 'edu.jojos.bizarre.matrix.Main'
+	mainModule = 'edu.jojos.bizarre.matrix'
 }
 
 tasks.withType(JavaCompile).configureEach {
