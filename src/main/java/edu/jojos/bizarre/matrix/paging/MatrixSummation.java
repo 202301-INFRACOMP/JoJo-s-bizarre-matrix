@@ -1,5 +1,6 @@
 package edu.jojos.bizarre.matrix.paging;
 
+import edu.jojos.bizarre.matrix.Matrix;
 import edu.jojos.bizarre.matrix.memory.MemorySystem;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,20 +8,19 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageReferenceGenerator {
+public class MatrixSummation {
   private final MemorySystem memorySystem;
 
-  public PageReferenceGenerator(MemorySystem memorySystem) {
+  public MatrixSummation(MemorySystem memorySystem) {
     this.memorySystem = memorySystem;
   }
 
-  public List<PageReference> generate(int rowSize, int columnSize, int elementSize, int pageSize) {
+  public List<PageReference> simulate(int rowSize, int columnSize, int elementSize, int pageSize) {
     final var references = new ArrayList<PageReference>();
 
-    final var matrixSize = rowSize * columnSize * elementSize;
-    final var A = memorySystem.malloc(matrixSize);
-    final var B = memorySystem.malloc(matrixSize);
-    final var C = memorySystem.malloc(matrixSize);
+    final var A = new Matrix(rowSize, columnSize, elementSize, memorySystem);
+    final var B = new Matrix(rowSize, columnSize, elementSize, memorySystem);
+    final var C = new Matrix(rowSize, columnSize, elementSize, memorySystem);
 
     for (long i = 0; i < rowSize; i++) {
       for (long j = 0; j < columnSize; j++) {
@@ -31,24 +31,20 @@ public class PageReferenceGenerator {
          *
          * Simulates C = A + B
          * */
-        final var Aij = generateAddress(A, elementSize, columnSize, i, j);
+        final var Aij = A.get1DAddress(i, j);
         references.add(new PageReference("A", i, j, Aij / pageSize, Aij % pageSize));
-        final var Bij = generateAddress(B, elementSize, columnSize, i, j);
+        final var Bij = B.get1DAddress(i, j);
         references.add(new PageReference("B", i, j, Bij / pageSize, Bij % pageSize));
-        final var Cij = generateAddress(C, elementSize, columnSize, i, j);
+        final var Cij = C.get1DAddress(i, j);
         references.add(new PageReference("C", i, j, Cij / pageSize, Cij % pageSize));
       }
     }
 
-    memorySystem.free(A);
-    memorySystem.free(B);
-    memorySystem.free(C);
+    A.free();
+    B.free();
+    C.free();
 
     return references;
-  }
-
-  private long generateAddress(long ptr, long elementSize, long columnSize, long i, long j) {
-    return elementSize * ((i * columnSize) + j) + ptr;
   }
 
   public void save(
