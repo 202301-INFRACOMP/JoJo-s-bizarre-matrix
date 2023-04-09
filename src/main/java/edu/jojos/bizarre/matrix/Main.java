@@ -1,5 +1,7 @@
 package edu.jojos.bizarre.matrix;
 
+import edu.jojos.bizarre.matrix.memory.FreeListMemory;
+import edu.jojos.bizarre.matrix.paging.PageReferenceGenerator;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -31,11 +33,12 @@ public class Main {
     var pageSize = scFile.nextInt();
     var executionFrames = scFile.nextInt();
 
-    var references = PageReference.generate(rowSize, columnSize, elementSize, pageSize);
+    var generator = new PageReferenceGenerator(new FreeListMemory());
+    var references = generator.generate(rowSize, columnSize, elementSize, pageSize);
 
     System.out.print("Enter an intermediate file path: ");
     var intermediate = stdin.next();
     var intermediatePath = Paths.get(intermediate);
-    PageReference.save(intermediatePath, rowSize, columnSize, pageSize, references);
+    generator.save(intermediatePath, rowSize, columnSize, pageSize, references);
   }
 }
