@@ -22,6 +22,7 @@ public class PhaseI implements Runnable {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+
     var rowSize = scFile.nextInt();
     var columnSize = scFile.nextInt();
     var elementSize = scFile.nextInt();
