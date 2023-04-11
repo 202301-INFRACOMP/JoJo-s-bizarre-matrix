@@ -1,13 +1,11 @@
 package edu.jojos.bizarre.matrix;
 
-import edu.jojos.bizarre.matrix.memory.FreeListMemory;
-import edu.jojos.bizarre.matrix.paging.MatrixSummation;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
+  public static Scanner stdin = new Scanner(System.in);
+
+  public static void main(String[] args) {
     System.out.print(
         """
             Welcome to
@@ -20,25 +18,22 @@ public class Main {
              |  | /~~\\  |  |  \\ | / \\                                  \s
                                                                        \s
             """);
+    System.out.println("Available options");
+    System.out.println("1 - Phase I");
+    System.out.println("2 - Phase II");
+    System.out.print("Enter the phase option: ");
 
-    System.out.print("Enter an input file path: ");
-    var stdin = new Scanner(System.in);
-    var input = stdin.next();
-    var inputPath = Paths.get(input);
-
-    var scFile = new Scanner(inputPath);
-    var rowSize = scFile.nextInt();
-    var columnSize = scFile.nextInt();
-    var elementSize = scFile.nextInt();
-    var pageSize = scFile.nextInt();
-    var executionFrames = scFile.nextInt();
-
-    var generator = new MatrixSummation(new FreeListMemory());
-    var references = generator.simulate(rowSize, columnSize, elementSize, pageSize);
-
-    System.out.print("Enter an intermediate file path: ");
-    var intermediate = stdin.next();
-    var intermediatePath = Paths.get(intermediate);
-    generator.save(intermediatePath, rowSize, columnSize, pageSize, references);
+    var phase = stdin.nextInt();
+    switch (phase) {
+      case 1:
+        var p1 = new PhaseI();
+        p1.run();
+        break;
+      case 2:
+        var p2 = new PhaseII();
+        p2.run();
+      default:
+        throw new RuntimeException("Invalid option");
+    }
   }
 }

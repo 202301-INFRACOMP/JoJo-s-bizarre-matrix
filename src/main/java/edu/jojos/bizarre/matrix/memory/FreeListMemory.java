@@ -2,13 +2,24 @@ package edu.jojos.bizarre.matrix.memory;
 
 import edu.jojos.bizarre.matrix.allocation.AllocationNode;
 import edu.jojos.bizarre.matrix.allocation.AllocationStatus;
+import edu.jojos.bizarre.matrix.paging.PageReference;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FreeListMemory implements MemorySystem {
+
+  private final int pageSize;
+  private final List<PageReference> pageReferences = new ArrayList<>();
 
   private final AllocationNode root =
       new AllocationNode(0L, Long.MAX_VALUE, AllocationStatus.FREE, null, null);
 
-  public FreeListMemory() {}
+  public FreeListMemory(int pageSize) {
+    this.pageSize = pageSize;
+  }
 
   @Override
   public long malloc(long byteSize) {
@@ -68,6 +79,24 @@ public class FreeListMemory implements MemorySystem {
 
     if (f) {
       throw new RuntimeException("Segmentation fault");
+    }
+  }
+
+  @Override
+  public void access(String metadata, long ptr) {
+    pageReferences.add(new PageReference(metadata, ptr / pageSize, ptr % pageSize));
+  }
+
+  @Override
+  public void save(Path p, String header) {
+    try (var bw = Files.newBufferedWriter(p)) {
+      bw.write(header);
+      bw.write(String.format("NR=%d\n", pageReferences.size()));
+      for (final var r : pageReferences) {
+        bw.write(String.format("%s,%d,%d\n", r.metadata(), r.pageNumber(), r.pageOffset()));
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
