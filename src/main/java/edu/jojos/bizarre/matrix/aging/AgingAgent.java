@@ -18,5 +18,10 @@ public class AgingAgent implements Runnable {
         pageEntry.age();
       }
     }
+      try {
+          Thread.sleep(1);
+      } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+      }
   }
 }
