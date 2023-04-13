@@ -4,29 +4,32 @@ import edu.jojos.bizarre.matrix.paging.PageEntry;
 import edu.jojos.bizarre.matrix.paging.reference.PageReference;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Aging implements Runnable {
 
-    private List<PageEntry> pageDirectory;
+    private final PriorityQueue<PageEntry> pageDirectory;
 
-    public Aging(List<PageEntry> pageDirectory) {
+
+    public Aging(PriorityQueue<PageEntry> pageDirectory) {
         this.pageDirectory = pageDirectory;
     }
 
-    private void ageDirectory() {
-        int positionOldest = 0;
+    private synchronized int ageDirectory() {
+
+        PageEntry oldest = pageDirectory.peek();
         for (PageEntry pageEntry : pageDirectory) {
             //gets the position of the oldest page
-            if (pageEntry.getCounter() > pageDirectory.get(positionOldest).getCounter()) {
-                positionOldest = pageDirectory.indexOf(pageEntry);
+            if (pageEntry.getCounter() < oldest.getCounter()) {
+                oldest = pageEntry;
             }
         }
-        //the oldest page goes out
-        pageDirectory.get(positionOldest).isPresent = false;
+
         //ages all pages after execution
         for (PageEntry pageEntry : pageDirectory) {
             pageEntry.age();
         }
+        return oldest.pageNumber;
     }
 
     @Override
