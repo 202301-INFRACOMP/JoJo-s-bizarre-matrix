@@ -1,6 +1,5 @@
 package edu.jojos.bizarre.matrix;
 
-import edu.jojos.bizarre.matrix.paging.Page;
 import edu.jojos.bizarre.matrix.phase.PhaseI;
 import edu.jojos.bizarre.matrix.phase.PhaseII;
 import java.util.Scanner;
@@ -25,9 +24,6 @@ public class Main {
     System.out.println("1 - Phase I");
     System.out.println("2 - Phase II");
     System.out.print("Enter the phase option: ");
-
-    var p = new Page();
-    p.age();
 
     var phase = stdin.nextInt();
     switch (phase) {

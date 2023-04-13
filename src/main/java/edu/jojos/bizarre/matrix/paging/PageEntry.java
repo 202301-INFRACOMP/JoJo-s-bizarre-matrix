@@ -1,14 +1,17 @@
 package edu.jojos.bizarre.matrix.paging;
 
-public class Page {
-  private boolean isPresent = false;
+public class PageEntry {
+
+  public int pageNumber;
+
+  public boolean isPresent = false;
 
   private boolean isDirty = false;
   private boolean isReferenced = false;
 
   private byte counter = 0;
 
-  public Page() {}
+  public PageEntry() {}
 
   public boolean getIsDirty() {
     return isDirty;
