@@ -21,6 +21,8 @@ public class PageEntry {
     return isReferenced;
   }
 
+  public void setIsReferenced(boolean state){isReferenced=state;}
+
   public void access(PageAccess pageAccess) {
     switch (pageAccess) {
       case READ -> isReferenced = true;
