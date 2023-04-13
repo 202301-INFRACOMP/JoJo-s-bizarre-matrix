@@ -1,27 +1,17 @@
 package edu.jojos.bizarre.matrix.paging;
 
 public class Page {
-    private long pageNumber;
-    private int lastAccessed;
-    private int accesed;
-    private boolean inMemory;
+  private boolean isPresent = false;
 
-    public Page(long pageNumber, int lastAccessed, int accesed, boolean inMemory) {
-        this.pageNumber = pageNumber;
-        this.lastAccessed = lastAccessed;
-        this.accesed = accesed;
-        this.inMemory = inMemory;
-    }
+  private boolean isDirty = false;
+  private boolean referenced = false;
 
-    public int getLastAccessed() {
-        return lastAccessed;
-    }
+  private byte counter = 0;
 
-    public long getPageNumber() {
-        return pageNumber;
-    }
+  public Page() {}
 
-    public void setLastAccessed(int i) {
-        lastAccessed = i;
-    }
+  public void age() {
+    counter >>= 2;
+    counter |= 1 << (Byte.SIZE - 1);
+  }
 }
