@@ -38,10 +38,10 @@ public class PhaseI implements Runnable {
     var header =
         String.format(
             """
-            TP=%d
-            NF=%d
-            NC=%d
-            """,
+                                TP=%d
+                                NF=%d
+                                NC=%d
+                                """,
             pageSize, rowSize, columnSize);
 
     memorySystem.save(intermediate, "");

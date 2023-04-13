@@ -10,16 +10,16 @@ public class Main {
   public static void main(String[] args) {
     System.out.print(
         """
-            Welcome to
-                  __        __  .  __      __    __       __   __   ___\s
-               | /  \\    | /  \\ ' /__`    |__) |  /  /\\  |__) |__) |__ \s
-            \\__/ \\__/ \\__/ \\__/   .__/    |__) | /_ /~~\\ |  \\ |  \\ |___\s
-                                                                       \s
-                       ___  __                                         \s
-             |\\/|  /\\   |  |__) | \\_/                                  \s
-             |  | /~~\\  |  |  \\ | / \\                                  \s
-                                                                       \s
-            """);
+                        Welcome to
+                              __        __  .  __      __    __       __   __   ___\s
+                           | /  \\    | /  \\ ' /__`    |__) |  /  /\\  |__) |__) |__ \s
+                        \\__/ \\__/ \\__/ \\__/   .__/    |__) | /_ /~~\\ |  \\ |  \\ |___\s
+                                                                                   \s
+                                   ___  __                                         \s
+                         |\\/|  /\\   |  |__) | \\_/                                  \s
+                         |  | /~~\\  |  |  \\ | / \\                                  \s
+                                                                                   \s
+                        """);
     System.out.println("Available options");
     System.out.println("1 - Phase I");
     System.out.println("2 - Phase II");
