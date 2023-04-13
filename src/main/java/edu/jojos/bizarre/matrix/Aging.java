@@ -20,7 +20,7 @@ public class Aging implements Runnable {
         PageEntry oldest = pageDirectory.peek();
         for (PageEntry pageEntry : pageDirectory) {
             //gets the position of the oldest page
-            if (pageEntry.getCounter() < oldest.getCounter()) {
+            if (Byte.compareUnsigned(pageEntry.getCounter(), oldest.getCounter())<0) {
                 oldest = pageEntry;
             }
         }
