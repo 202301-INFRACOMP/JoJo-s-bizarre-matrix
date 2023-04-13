@@ -1,15 +1,14 @@
-package edu.jojos.bizarre.matrix;
+package edu.jojos.bizarre.matrix.paging.reference;
 
-import edu.jojos.bizarre.matrix.paging.PageReference;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageRequestLoader {
+public class PageReferenceLoader {
 
-  public PageRequestLoader() {}
+  public PageReferenceLoader() {}
 
   public List<PageReference> load(Path p) {
     List<PageReference> pageReferences = null;
@@ -54,12 +53,10 @@ public class PageRequestLoader {
     var fci = line.indexOf(',');
     var sci = line.indexOf(',', fci);
 
-    // var metadata = line.substring(0, fci);
-
-    var pageNumber = Integer.parseInt(line.substring(fci+1, sci));
-
+    var metadata = line.substring(0, fci);
+    var pageNumber = Integer.parseInt(line.substring(fci + 1, sci));
     var pageOffset = Integer.parseInt(line.substring(sci));
 
-    return null;
+    return new PageReference(metadata, pageNumber, pageOffset);
   }
 }

@@ -1,4 +1,4 @@
-package edu.jojos.bizarre.matrix;
+package edu.jojos.bizarre.matrix.data;
 
 import edu.jojos.bizarre.matrix.memory.MemorySystem;
 

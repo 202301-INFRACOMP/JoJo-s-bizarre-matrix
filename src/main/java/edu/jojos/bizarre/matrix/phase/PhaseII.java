@@ -1,7 +1,8 @@
-package edu.jojos.bizarre.matrix;
+package edu.jojos.bizarre.matrix.phase;
 
 import static edu.jojos.bizarre.matrix.Main.stdin;
 
+import edu.jojos.bizarre.matrix.paging.reference.PageReferenceLoader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -21,11 +22,10 @@ public class PhaseII implements Runnable {
       throw new RuntimeException(e);
     }
 
-    // get intermediate information
+    var loader = new PageReferenceLoader();
+    var pageReferences = loader.load(input);
 
     System.out.print("Enter execution page count: ");
     var pageCount = stdin.nextInt();
-
-    // ...
   }
 }

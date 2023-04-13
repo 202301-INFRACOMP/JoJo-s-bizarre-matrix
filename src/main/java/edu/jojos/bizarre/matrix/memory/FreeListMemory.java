@@ -2,7 +2,7 @@ package edu.jojos.bizarre.matrix.memory;
 
 import edu.jojos.bizarre.matrix.allocation.AllocationNode;
 import edu.jojos.bizarre.matrix.allocation.AllocationStatus;
-import edu.jojos.bizarre.matrix.paging.PageReference;
+import edu.jojos.bizarre.matrix.paging.reference.PageReference;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

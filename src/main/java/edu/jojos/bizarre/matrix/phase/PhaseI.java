@@ -1,9 +1,9 @@
-package edu.jojos.bizarre.matrix;
+package edu.jojos.bizarre.matrix.phase;
 
 import static edu.jojos.bizarre.matrix.Main.stdin;
 
+import edu.jojos.bizarre.matrix.driver.MatrixSummation;
 import edu.jojos.bizarre.matrix.memory.FreeListMemory;
-import edu.jojos.bizarre.matrix.paging.MatrixSummation;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
