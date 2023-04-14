@@ -1,14 +1,15 @@
 package edu.jojos.bizarre.matrix.allocation;
 
 public class AllocationNode {
-  private long address;
-  private long blockSize;
+  public long address;
 
-  private AllocationStatus status;
+  public long blockSize;
 
-  private AllocationNode prev;
+  public AllocationStatus status;
 
-  private AllocationNode next;
+  public AllocationNode prev;
+
+  public AllocationNode next;
 
   public AllocationNode(
       long address,
@@ -20,46 +21,6 @@ public class AllocationNode {
     this.blockSize = blockSize;
     this.status = status;
     this.prev = prev;
-    this.next = next;
-  }
-
-  public long getAddress() {
-    return address;
-  }
-
-  public void setAddress(long address) {
-    this.address = address;
-  }
-
-  public long getBlockSize() {
-    return blockSize;
-  }
-
-  public void setBlockSize(long blockSize) {
-    this.blockSize = blockSize;
-  }
-
-  public AllocationStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(AllocationStatus status) {
-    this.status = status;
-  }
-
-  public AllocationNode getPrev() {
-    return prev;
-  }
-
-  public void setPrev(AllocationNode prev) {
-    this.prev = prev;
-  }
-
-  public AllocationNode getNext() {
-    return next;
-  }
-
-  public void setNext(AllocationNode next) {
     this.next = next;
   }
 }

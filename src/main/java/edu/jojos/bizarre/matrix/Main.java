@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class Main {
   public static Scanner stdin = new Scanner(System.in);
 
+  public static int bitSize = 16;
+
   public static void main(String[] args) {
     System.out.print(
         """
@@ -24,6 +26,10 @@ public class Main {
     System.out.println("1 - Phase I");
     System.out.println("2 - Phase II");
     System.out.print("Enter the phase option: ");
+
+    long a = (1L << 64L) - 1L;
+
+    long b = 0L;
 
     var phase = stdin.nextInt();
     switch (phase) {

@@ -2,11 +2,12 @@ package edu.jojos.bizarre.matrix.paging;
 
 public class PageEntry {
 
-  public int pageNumber;
+  public int FrameNumber;
 
   public boolean isPresent = false;
 
   private boolean isDirty = false;
+
   private boolean isReferenced = false;
 
   private byte counter = 0;
@@ -21,7 +22,9 @@ public class PageEntry {
     return isReferenced;
   }
 
-  public void setIsReferenced(boolean state){isReferenced=state;}
+  public void setIsReferenced(boolean state) {
+    isReferenced = state;
+  }
 
   public void access(PageAccess pageAccess) {
     switch (pageAccess) {

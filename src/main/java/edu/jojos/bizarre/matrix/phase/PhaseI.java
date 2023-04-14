@@ -1,9 +1,10 @@
 package edu.jojos.bizarre.matrix.phase;
 
+import static edu.jojos.bizarre.matrix.Main.bitSize;
 import static edu.jojos.bizarre.matrix.Main.stdin;
 
 import edu.jojos.bizarre.matrix.driver.MatrixSummation;
-import edu.jojos.bizarre.matrix.memory.FreeListMemory;
+import edu.jojos.bizarre.matrix.memory.VirtualMemory;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -28,7 +29,7 @@ public class PhaseI implements Runnable {
     var elementSize = scFile.nextInt();
     var pageSize = scFile.nextInt();
 
-    var memorySystem = new FreeListMemory(pageSize);
+    var memorySystem = new VirtualMemory(pageSize, bitSize);
     var summation = new MatrixSummation(memorySystem);
     summation.run(rowSize, columnSize, elementSize);
 
