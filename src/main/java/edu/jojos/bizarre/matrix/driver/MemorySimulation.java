@@ -53,6 +53,6 @@ public class MemorySimulation implements Runnable {
       throw new RuntimeException(e);
     }
 
-    System.out.printf("The resulting page faults are: %d", result.pageFaults);
+    System.out.printf("The resulting page faults are: %d", result.getPageFaults());
   }
 }

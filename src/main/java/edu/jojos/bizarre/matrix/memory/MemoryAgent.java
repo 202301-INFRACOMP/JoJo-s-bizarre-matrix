@@ -54,7 +54,7 @@ public class MemoryAgent implements Runnable {
     }
 
     faultPage.access(PageAccess.NONE);
-    result.pageFaults++;
+    result.addPageFault();
   }
 
   public void run() {

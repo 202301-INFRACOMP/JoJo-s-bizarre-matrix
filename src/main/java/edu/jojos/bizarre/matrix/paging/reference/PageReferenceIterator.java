@@ -13,8 +13,7 @@ public class PageReferenceIterator implements LiveIterator<PageReference> {
 
   @Override
   public synchronized boolean hasNext() {
-    if (!buffer.isEmpty())
-    {
+    if (!buffer.isEmpty()) {
       return true;
     }
 
