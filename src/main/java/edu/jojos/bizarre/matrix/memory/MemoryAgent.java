@@ -1,6 +1,6 @@
-package edu.jojos.bizarre.matrix.driver;
+package edu.jojos.bizarre.matrix.memory;
 
-import edu.jojos.bizarre.matrix.Result;
+import edu.jojos.bizarre.matrix.data.Result;
 import edu.jojos.bizarre.matrix.paging.PageAccess;
 import edu.jojos.bizarre.matrix.paging.PageEntry;
 import edu.jojos.bizarre.matrix.paging.reference.PageReferenceIterator;
@@ -17,7 +17,7 @@ public class MemoryAgent implements Runnable {
 
   private Result result;
 
-  public MemoryAgent(PageReferenceIterator iterator, List<PageEntry> pageDirectory,Result result) {
+  public MemoryAgent(PageReferenceIterator iterator, List<PageEntry> pageDirectory, Result result) {
     this.iterator = iterator;
     this.pageDirectory = pageDirectory;
     this.result = result;
@@ -27,9 +27,9 @@ public class MemoryAgent implements Runnable {
     var minimum = Byte.MAX_VALUE;
     PageEntry oldestPage = null;
     for (PageEntry pageEntry : freeFrames) {
-      //hay que llevar un index para saber quien está libre en memoria fisica
-      //la dirección que se le asigna a la página es el index
-      System.out.println(pageEntry.FrameNumber);
+      // hay que llevar un index para saber quien está libre en memoria fisica
+      // la dirección que se le asigna a la página es el index
+      System.out.println(pageEntry.getPageFrame());
       if (pageEntry.getCounter() < minimum) {
         oldestPage = pageEntry;
       }
@@ -39,7 +39,7 @@ public class MemoryAgent implements Runnable {
     oldestPage.evict();
     freeFrames.add(newPage);
     newPage.access(PageAccess.WRITE);
-    newPage.mapTo(oldestPage.FrameNumber);
+    newPage.mapTo(oldestPage.getPageFrame());
     result.pageFaults++;
   }
 
@@ -50,7 +50,7 @@ public class MemoryAgent implements Runnable {
       var currentPage = pageDirectory.get((int) pageNumber);
 
       if (!freeFrames.contains(currentPage)) {
-          pageFault(currentPage);
+        pageFault(currentPage);
       }
       currentPage.age();
       try {

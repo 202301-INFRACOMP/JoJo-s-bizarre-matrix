@@ -27,10 +27,6 @@ public class Main {
     System.out.println("2 - Phase II");
     System.out.print("Enter the phase option: ");
 
-    long a = (1L << 64L) - 1L;
-
-    long b = 0L;
-
     var phase = stdin.nextInt();
     switch (phase) {
       case 1:

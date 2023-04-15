@@ -32,7 +32,7 @@ public class VirtualMemory implements MemorySystem {
 
   @Override
   public void access(String metadata, long ptr) {
-    pageReferences.add(new PageReference(metadata, ptr / pageSize, ptr % pageSize));
+    pageReferences.add(new PageReference(metadata, (int) (ptr / pageSize), (int) (ptr % pageSize)));
   }
 
   @Override

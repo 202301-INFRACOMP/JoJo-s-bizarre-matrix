@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class PhaseII implements Runnable {
 
   int bitSize;
+
   public PhaseII(int bitSize) {
     this.bitSize = bitSize;
   }
@@ -31,11 +32,11 @@ public class PhaseII implements Runnable {
     var pageReferences = loader.load(input);
     int pageSize = Integer.parseInt(scFile.nextLine().substring(3));
 
-    int dirSize = (int)Math.ceil(Math.pow(2,bitSize)/pageSize);
+    int dirSize = (int) Math.ceil(Math.pow(2, bitSize) / pageSize);
     System.out.print("Enter execution page count: ");
     var pageCount = stdin.nextInt();
 
-    var simulation = new MemorySimulation(pageReferences, pageCount,dirSize);
+    var simulation = new MemorySimulation(pageReferences, pageCount, dirSize);
     simulation.run();
   }
 }

@@ -2,9 +2,9 @@ package edu.jojos.bizarre.matrix.paging;
 
 public class PageEntry {
 
-  public int FrameNumber;
+  private int pageFrame;
 
-  public boolean isPresent = false;
+  private boolean isPresent = false;
 
   private boolean isDirty = false;
 
@@ -13,6 +13,14 @@ public class PageEntry {
   private byte counter = 0;
 
   public PageEntry() {}
+
+  public int getPageFrame() {
+    return pageFrame;
+  }
+
+  public boolean getIsPresent() {
+    return isPresent;
+  }
 
   public boolean getIsDirty() {
     return isDirty;
@@ -42,8 +50,8 @@ public class PageEntry {
     isReferenced = false;
   }
 
-  public void mapTo(int pageFrame){
-    FrameNumber = pageFrame;
+  public void mapTo(int pageFrame) {
+    this.pageFrame = pageFrame;
     isPresent = true;
   }
 
