@@ -36,6 +36,17 @@ public class PageEntry {
     }
   }
 
+  public void evict() {
+    isPresent = false;
+    isDirty = false;
+    isReferenced = false;
+  }
+
+  public void mapTo(int pageFrame){
+    FrameNumber = pageFrame;
+    isPresent = true;
+  }
+
   public byte getCounter() {
     return counter;
   }

@@ -45,6 +45,6 @@ public class PhaseI implements Runnable {
                                 """,
             pageSize, rowSize, columnSize);
 
-    memorySystem.save(intermediate, "");
+    memorySystem.save(intermediate, header);
   }
 }

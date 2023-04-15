@@ -3,7 +3,7 @@ package edu.jojos.bizarre.matrix.aging;
 import edu.jojos.bizarre.matrix.paging.PageEntry;
 import java.util.List;
 
-public class AgingAgent implements Runnable {
+public class AgingAgent implements Runnable{
 
   private final List<PageEntry> pageDirectory;
 

@@ -51,11 +51,11 @@ public class PageReferenceLoader {
     var f = false;
 
     var fci = line.indexOf(',');
-    var sci = line.indexOf(',', fci);
+    var sci = line.indexOf(',', fci+1);
 
     var metadata = line.substring(0, fci);
     var pageNumber = Integer.parseInt(line.substring(fci + 1, sci));
-    var pageOffset = Integer.parseInt(line.substring(sci));
+    var pageOffset = Integer.parseInt(line.substring(sci+1));
 
     return new PageReference(metadata, pageNumber, pageOffset);
   }

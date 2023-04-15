@@ -38,8 +38,9 @@ public class Main {
         p1.run();
         break;
       case 2:
-        var p2 = new PhaseII();
+        var p2 = new PhaseII(bitSize);
         p2.run();
+        break;
       default:
         throw new RuntimeException("Invalid option");
     }
