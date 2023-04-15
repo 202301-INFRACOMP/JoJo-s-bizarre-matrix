@@ -6,34 +6,28 @@ import edu.jojos.bizarre.matrix.memory.MemoryAgent;
 import edu.jojos.bizarre.matrix.paging.PageEntry;
 import edu.jojos.bizarre.matrix.paging.reference.PageReference;
 import edu.jojos.bizarre.matrix.paging.reference.PageReferenceIterator;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MemorySimulation implements Runnable {
   private final List<PageReference> references;
 
-  private final int pageCount;
+  private final List<Boolean> pageFrames;
 
-  private static final Result result = new Result();
+  private final List<PageEntry> pageDirectory;
+
+  private final Result result = new Result();
+
   private final PageReferenceIterator iterator = new PageReferenceIterator();
-
-  private List<PageEntry> pageDirectory = new ArrayList<>();
 
   private final Thread memoryAgent;
 
   private final Thread ager;
 
-  private int dirSize;
-
-  public MemorySimulation(List<PageReference> references, int pageCount, int dirSize) {
+  public MemorySimulation(
+      List<PageReference> references, List<Boolean> pageFrames, List<PageEntry> pageDirectory) {
     this.references = references;
-    this.pageCount = pageCount;
-    this.dirSize = dirSize;
-
-    for (int i = 0; i < dirSize; i++) {
-      pageDirectory.add(new PageEntry());
-    }
-
+    this.pageFrames = pageFrames;
+    this.pageDirectory = pageDirectory;
     memoryAgent = new Thread(new MemoryAgent(iterator, pageDirectory, result));
     ager = new Thread(new AgingAgent(pageDirectory));
   }
@@ -56,5 +50,7 @@ public class MemorySimulation implements Runnable {
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
+
+    System.out.printf("The resulting page faults are: %d", result.pageFaults);
   }
 }

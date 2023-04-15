@@ -3,9 +3,11 @@ package edu.jojos.bizarre.matrix.phase;
 import static edu.jojos.bizarre.matrix.Main.stdin;
 
 import edu.jojos.bizarre.matrix.driver.MemorySimulation;
+import edu.jojos.bizarre.matrix.paging.PageEntry;
 import edu.jojos.bizarre.matrix.paging.reference.PageReferenceLoader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PhaseII implements Runnable {
@@ -29,14 +31,23 @@ public class PhaseII implements Runnable {
     }
 
     var loader = new PageReferenceLoader();
-    var pageReferences = loader.load(input);
-    int pageSize = Integer.parseInt(scFile.nextLine().substring(3));
+    var data = loader.load(input);
 
-    int dirSize = (int) Math.ceil(Math.pow(2, bitSize) / pageSize);
-    System.out.print("Enter execution page count: ");
-    var pageCount = stdin.nextInt();
+    System.out.print("Enter execution page frame count: ");
+    var pageFrameCount = stdin.nextInt();
 
-    var simulation = new MemorySimulation(pageReferences, pageCount, dirSize);
+    var pageFrames = new ArrayList<Boolean>(pageFrameCount);
+    for (int i = 0; i < pageFrameCount; i++) {
+      pageFrames.add(false);
+    }
+
+    int pageDirectorySize = (1 << bitSize) / data.pageSize();
+    var pageDirectory = new ArrayList<PageEntry>(pageDirectorySize);
+    for (int i = 0; i < pageDirectorySize; i++) {
+      pageDirectory.add(new PageEntry());
+    }
+
+    var simulation = new MemorySimulation(data.pageReferences(), pageFrames, pageDirectory);
     simulation.run();
   }
 }

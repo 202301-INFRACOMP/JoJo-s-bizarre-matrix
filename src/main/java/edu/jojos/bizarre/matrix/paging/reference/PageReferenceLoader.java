@@ -1,5 +1,6 @@
 package edu.jojos.bizarre.matrix.paging.reference;
 
+import edu.jojos.bizarre.matrix.data.PageReferencesData;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +11,7 @@ public class PageReferenceLoader {
 
   public PageReferenceLoader() {}
 
-  public List<PageReference> load(Path p) {
+  public PageReferencesData load(Path p) {
     List<PageReference> pageReferences = null;
     try (var br = Files.newBufferedReader(p)) {
       var pageSize = loadHeader("TP", br.readLine());
@@ -23,11 +24,11 @@ public class PageReferenceLoader {
         var line = br.readLine();
         pageReferences.add(loadPageReference(line));
       }
+
+      return new PageReferencesData(pageSize, rowSize, columnSize, pageReferences);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-
-    return pageReferences;
   }
 
   private int loadHeader(String header, String line) {
