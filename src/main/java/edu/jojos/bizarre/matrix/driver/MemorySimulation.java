@@ -45,9 +45,9 @@ public class MemorySimulation implements Runnable {
     }
 
     iterator.terminate();
-    agerState.shutdown();
     try {
       memoryAgent.join();
+      agerState.shutdown();
       ager.join();
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
