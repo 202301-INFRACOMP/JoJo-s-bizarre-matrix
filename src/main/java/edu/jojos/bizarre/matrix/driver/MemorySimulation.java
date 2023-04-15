@@ -1,6 +1,7 @@
 package edu.jojos.bizarre.matrix.driver;
 
 import edu.jojos.bizarre.matrix.aging.AgingAgent;
+import edu.jojos.bizarre.matrix.data.EndState;
 import edu.jojos.bizarre.matrix.data.Result;
 import edu.jojos.bizarre.matrix.memory.MemoryAgent;
 import edu.jojos.bizarre.matrix.paging.PageEntry;
@@ -23,13 +24,15 @@ public class MemorySimulation implements Runnable {
 
   private final Thread ager;
 
+  private final EndState agerState = new EndState();
+
   public MemorySimulation(
       List<PageReference> references, List<Boolean> pageFrames, List<PageEntry> pageDirectory) {
     this.references = references;
     this.pageFrames = pageFrames;
     this.pageDirectory = pageDirectory;
     memoryAgent = new Thread(new MemoryAgent(iterator, pageDirectory, result));
-    ager = new Thread(new AgingAgent(pageDirectory));
+    ager = new Thread(new AgingAgent(pageDirectory, agerState));
   }
 
   @Override
@@ -42,7 +45,7 @@ public class MemorySimulation implements Runnable {
     }
 
     iterator.terminate();
-
+    agerState.shutdown();
     try {
       memoryAgent.join();
       ager.join();
