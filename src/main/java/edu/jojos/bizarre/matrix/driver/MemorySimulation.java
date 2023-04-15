@@ -49,7 +49,6 @@ public class MemorySimulation implements Runnable {
     try {
       memoryAgent.join();
       ager.join();
-      System.out.println(result.pageFaults);
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }

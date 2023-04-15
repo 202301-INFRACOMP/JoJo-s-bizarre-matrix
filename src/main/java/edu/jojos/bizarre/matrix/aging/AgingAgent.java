@@ -17,7 +17,7 @@ public class AgingAgent implements Runnable {
 
   @Override
   public void run() {
-    while (agerState.getIsShutdown()) {
+    while (!agerState.getIsShutdown()) {
       synchronized (pageDirectory) {
         for (PageEntry pageEntry : pageDirectory) {
           if (pageEntry.getIsReferenced()) {
