@@ -1,6 +1,6 @@
-package edu.jojos.bizarre.matrix.paging;
+package edu.jojos.bizarre.matrix.driver;
 
-import edu.jojos.bizarre.matrix.Matrix;
+import edu.jojos.bizarre.matrix.data.Matrix;
 import edu.jojos.bizarre.matrix.memory.MemorySystem;
 
 public class MatrixSummation {
