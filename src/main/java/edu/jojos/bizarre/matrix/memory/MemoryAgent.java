@@ -4,63 +4,64 @@ import edu.jojos.bizarre.matrix.data.Result;
 import edu.jojos.bizarre.matrix.paging.PageAccess;
 import edu.jojos.bizarre.matrix.paging.PageEntry;
 import edu.jojos.bizarre.matrix.paging.reference.PageReferenceIterator;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MemoryAgent implements Runnable {
   private final PageReferenceIterator iterator;
+
+  private final List<Boolean> pageFrames;
+
   private final List<PageEntry> pageDirectory;
 
-  private int maximumSize;
+  private final Result result;
 
-  private final List<Boolean> pageFrames = new ArrayList<>();
-
-  private Result result;
-
-  public MemoryAgent(PageReferenceIterator iterator, List<PageEntry> pageDirectory, Result result) {
+  public MemoryAgent(
+      PageReferenceIterator iterator,
+      List<Boolean> pageFrames,
+      List<PageEntry> pageDirectory,
+      Result result) {
     this.iterator = iterator;
+    this.pageFrames = pageFrames;
     this.pageDirectory = pageDirectory;
     this.result = result;
   }
 
-  private void pageFault(PageEntry newPage) {
-    var minimum = Byte.MAX_VALUE;
-    PageEntry oldestPage = null;
-    for (Boolean pageFrame : pageFrames) {
-      if (Boolean.TRUE.equals(pageFrame)){
-        pageFrame = false;
-        newPage.mapTo(pageFrames.indexOf(pageFrame));
-        newPage.access(PageAccess.WRITE);
-        return;
+  private void pageFault(PageEntry faultPage) {
+    int pageFrameIndex = -1;
+    for (int i = 0; i < pageFrames.size(); i++) {
+      if (pageFrames.get(i)) {
+        pageFrameIndex = i;
       }
     }
 
-    for (PageEntry pageEntry : pageDirectory) {
-      if (pageEntry.getCounter() < minimum) {
-        oldestPage = pageEntry;
+    if (pageFrameIndex == 1) {
+      var pageFrame = pageFrames.get(pageFrameIndex);
+      pageFrame = false;
+      faultPage.mapTo(pageFrameIndex);
+    } else {
+      var minimum = Byte.MAX_VALUE;
+      int oldestPageEntryIndex = -1;
+      for (int i = 0; i < pageDirectory.size(); i++) {
+        var pageEntry = pageDirectory.get(i);
+        var counter = pageEntry.getCounter();
+        if (Byte.compareUnsigned(counter, minimum) < 0) {
+          oldestPageEntryIndex = i;
+        }
       }
+
+      var oldestPage = pageDirectory.get(oldestPageEntryIndex);
+      faultPage.mapTo(oldestPage.getPageFrame());
     }
-    assert oldestPage != null;
 
-    int index = pageFrames.indexOf(oldestPage.getPageFrame());
-    oldestPage.evict();
-    newPage.mapTo(index);
-    newPage.access(PageAccess.NONE);
-
+    faultPage.access(PageAccess.NONE);
     result.pageFaults++;
-      // hay que llevar un index para saber quien está libre en memoria fisica
-      // la dirección que se le asigna a la página es el index
-
-    }
-
-
-
+  }
 
   public void run() {
     while (iterator.hasNext()) {
       var pageReference = iterator.next();
       var pageNumber = pageReference.pageNumber();
-      var currentPage = pageDirectory.get((int) pageNumber);
+      var currentPage = pageDirectory.get(pageNumber);
 
       if (!currentPage.getIsPresent()) {
         pageFault(currentPage);

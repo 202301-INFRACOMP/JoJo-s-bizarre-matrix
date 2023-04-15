@@ -31,7 +31,7 @@ public class MemorySimulation implements Runnable {
     this.references = references;
     this.pageFrames = pageFrames;
     this.pageDirectory = pageDirectory;
-    memoryAgent = new Thread(new MemoryAgent(iterator, pageDirectory, result));
+    memoryAgent = new Thread(new MemoryAgent(iterator, pageFrames, pageDirectory, result));
     ager = new Thread(new AgingAgent(pageDirectory, agerState));
   }
 
