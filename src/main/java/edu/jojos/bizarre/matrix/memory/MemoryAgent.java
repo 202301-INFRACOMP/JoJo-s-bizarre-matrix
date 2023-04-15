@@ -13,7 +13,7 @@ public class MemoryAgent implements Runnable {
 
   private int maximumSize;
 
-  private final List<PageEntry> freeFrames = new ArrayList<>();
+  private final List<Boolean> pageFrames = new ArrayList<>();
 
   private Result result;
 
@@ -26,22 +26,35 @@ public class MemoryAgent implements Runnable {
   private void pageFault(PageEntry newPage) {
     var minimum = Byte.MAX_VALUE;
     PageEntry oldestPage = null;
-    for (PageEntry pageEntry : freeFrames) {
-      // hay que llevar un index para saber quien está libre en memoria fisica
-      // la dirección que se le asigna a la página es el index
-      System.out.println(pageEntry.getPageFrame());
+    for (Boolean pageFrame : pageFrames) {
+      if (Boolean.TRUE.equals(pageFrame)){
+        pageFrame = false;
+        newPage.mapTo(pageFrames.indexOf(pageFrame));
+        newPage.access(PageAccess.WRITE);
+        return;
+      }
+    }
+
+    for (PageEntry pageEntry : pageDirectory) {
       if (pageEntry.getCounter() < minimum) {
         oldestPage = pageEntry;
       }
     }
     assert oldestPage != null;
-    freeFrames.remove(oldestPage);
+
+    int index = pageFrames.indexOf(oldestPage.getPageFrame());
     oldestPage.evict();
-    freeFrames.add(newPage);
-    newPage.access(PageAccess.WRITE);
-    newPage.mapTo(oldestPage.getPageFrame());
+    newPage.mapTo(index);
+    newPage.access(PageAccess.NONE);
+
     result.pageFaults++;
-  }
+      // hay que llevar un index para saber quien está libre en memoria fisica
+      // la dirección que se le asigna a la página es el index
+
+    }
+
+
+
 
   public void run() {
     while (iterator.hasNext()) {
@@ -49,10 +62,10 @@ public class MemoryAgent implements Runnable {
       var pageNumber = pageReference.pageNumber();
       var currentPage = pageDirectory.get((int) pageNumber);
 
-      if (!freeFrames.contains(currentPage)) {
+      if (!currentPage.getIsPresent()) {
         pageFault(currentPage);
       }
-      currentPage.age();
+
       try {
         Thread.sleep(2);
       } catch (InterruptedException e) {
